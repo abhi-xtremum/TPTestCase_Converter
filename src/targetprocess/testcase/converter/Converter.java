@@ -51,39 +51,47 @@ public class Converter {
 			String[] nextLine;
 			int j=0;
 			
+			testcase_reader.readNext();
+			
+			
+			
 			CSVWriter testcase_writer = new CSVWriter(new FileWriter("/home/abhijeet/Desktop/MU/MUTestcases_TargetProcess/converted.csv"));
 			String[] file_header = {"ProjectID","Entity Type","ID","Name","Last Run Date","Creation Date","Project","User Story","Last Failure Comment","Last Status","Steps","Success","Priority","Tags","Owner"};
 			testcase_writer.writeNext(file_header);
 			
 			while((nextLine = testcase_reader.readNext()) != null)
 			{
-				if(j==0)
-				continue;
-				else
-				{
-				   String test_name = nextLine[2];
-				   String steps = nextLine[3];
-				   String success = nextLine[4];
-				   
+				
+				   System.out.println("reading and writing..");
+				  
 				   
 				   List <String> tclist = new ArrayList<String>();
 				   tclist.add(String.valueOf(obj.project_id));
 				   tclist.add(obj.entity_type);
 				   tclist.add(obj.testcase_id);
+				   tclist.add(nextLine[2]);
 				   tclist.add(obj.last_run_date);
 				   tclist.add(obj.creation_date);
-				   tclist.add(obj.project);
+				   tclist.add("US Build");
 				   tclist.add(obj.user_story);
 				   tclist.add(obj.lastfailure_comment);
 				   tclist.add(obj.last_status);
+				   tclist.add(nextLine[3]);
+				   tclist.add(nextLine[4]);
 				   tclist.add(obj.priority);
 				   tclist.add(obj.tags);
 				   
-				   String[] tcline = (String[]) tclist.toArray();
-				   testcase_writer.writeNext(tcline);
-				}
-				j++;
+				   
+				   
+		   		   String[] tcline = new String[tclist.size()];
+				    tcline = tclist.toArray(tcline);
+         		   testcase_writer.writeNext(tcline);
+				
+				
 			}
+			
+			testcase_reader.close();
+			testcase_writer.close();
 			
 		} 
 		catch (FileNotFoundException e) 
@@ -92,7 +100,7 @@ public class Converter {
 		}
 		
 		
-
+    
 
 	}
 

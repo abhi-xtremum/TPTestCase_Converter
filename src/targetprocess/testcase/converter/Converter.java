@@ -39,6 +39,7 @@ public class Converter {
 			e.printStackTrace();
 		}
 	    
+		obj.entity_type = "TestCase";
 		
 		System.out.println("This converter will currently accept your test-cases in this format:");
 		System.out.println("1.Description 2.Steps 3.Expected Result \n These parameters should be the 2nd, 3rd, 4th column in your testcase");
@@ -51,6 +52,9 @@ public class Converter {
 			int j=0;
 			
 			CSVWriter testcase_writer = new CSVWriter(new FileWriter("/home/abhijeet/Desktop/MU/MUTestcases_TargetProcess/converted.csv"));
+			String[] file_header = {"ProjectID","Entity Type","ID","Name","Last Run Date","Creation Date","Project","User Story","Last Failure Comment","Last Status","Steps","Success","Priority","Tags","Owner"};
+			testcase_writer.writeNext(file_header);
+			
 			while((nextLine = testcase_reader.readNext()) != null)
 			{
 				if(j==0)
@@ -61,11 +65,22 @@ public class Converter {
 				   String steps = nextLine[3];
 				   String success = nextLine[4];
 				   
-				   String[] file_header = {"ProjectID","Entity Type",
-				   List <String> tcline = new ArrayList<String>();
-				   tcline.add(String.valueOf(obj.project_id));
-				   tcline.add(Entity)
 				   
+				   List <String> tclist = new ArrayList<String>();
+				   tclist.add(String.valueOf(obj.project_id));
+				   tclist.add(obj.entity_type);
+				   tclist.add(obj.testcase_id);
+				   tclist.add(obj.last_run_date);
+				   tclist.add(obj.creation_date);
+				   tclist.add(obj.project);
+				   tclist.add(obj.user_story);
+				   tclist.add(obj.lastfailure_comment);
+				   tclist.add(obj.last_status);
+				   tclist.add(obj.priority);
+				   tclist.add(obj.tags);
+				   
+				   String[] tcline = (String[]) tclist.toArray();
+				   testcase_writer.writeNext(tcline);
 				}
 				j++;
 			}
